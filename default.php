@@ -10,9 +10,17 @@ $sqlJenisBarang ='SELECT COUNT(*) FROM jenis_barang';
 $resultJenisBarang = $pdo->query($sqlJenisBarang);
 $jumlah_jenis_barang = $resultJenisBarang->fetchColumn();
 
-$sqlsupplier ='SELECT COUNT(*) FROM supplier';
-$resultsupplier = $pdo->query($sqlsupplier);
-$jumlahsupplier = $resultsupplier->fetchColumn();
+$sqlSupplier ='SELECT COUNT(*) FROM supplier';
+$resultSupplier = $pdo->query($sqlSupplier);
+$jumlah_supplier = $resultSupplier->fetchColumn();
+
+$sqlTransaksi ='SELECT COUNT(*) FROM transaksi';
+$resultTransaksi = $pdo->query($sqlTransaksi);
+$jumlah_transaksi = $resultTransaksi->fetchColumn();
+
+$sqlMember ='SELECT COUNT(*) FROM member';
+$resultMember = $pdo->query($sqlMember);
+$jumlah_member = $resultMember->fetchColumn();
 
 ?>
 
@@ -38,7 +46,7 @@ $jumlahsupplier = $resultsupplier->fetchColumn();
             <div class="card border-primary">
                     <div class="card-body">
                     <h2><a href="index.php?page=member">Member</a></h2>
-                    0
+                    <?= $jumlah_member ?>
                     </div>
                 </div>
             </div>
@@ -46,7 +54,7 @@ $jumlahsupplier = $resultsupplier->fetchColumn();
             <div class="card border-primary">
                     <div class="card-body">
                     <h2><a href="index.php?page=supplier">Supplier</a></h2>
-                    <?= $jumlahsupplier ?>
+                    <?= $jumlah_supplier ?>
                     </div>
                 </div>
             </div>
@@ -73,7 +81,7 @@ $jumlahsupplier = $resultsupplier->fetchColumn();
             <div class="card border-primary">
                     <div class="card-body">
                     <h2><a href="index.php?page=transaksi">Transaksi</a></h2>
-                    0
+                    <?= $jumlah_transaksi ?>
                     </div>
                 </div>
             </div>
