@@ -69,6 +69,6 @@ if(isset($_POST['simpan'])){
     $q->execute(array($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp));
 
     koneksi::disconnect();
-    echo "<script> window.location.href = 'index.php?page=barang' </script> ";
+    echo "<script> window.location.href = 'index.php?page=member' </script> ";
 }
 ?>
