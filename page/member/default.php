@@ -1,4 +1,5 @@
 <?php
+include_once "database/class/member.php";
 include_once "database/config.php";
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';

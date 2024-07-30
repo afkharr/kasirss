@@ -1,5 +1,7 @@
 <?php
+include_once "database/class/supplier.php";
 include_once "database/config.php";
+
 
 $act = isset($_GET['act']) ? $_GET['act'] : '';
 switch ($act) {

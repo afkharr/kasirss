@@ -63,12 +63,14 @@ if(isset($_POST['simpan'])){
     $total_poin = $_POST['total_poin'];
     $no_telp = $_POST['no_telp'];
 
-    $pdo = koneksi::connect();
-    $sql = "INSERT INTO member (nama, alamat, jenis_kelamin, total_poin, no_telp) VALUES (?, ?, ?, ?, ?)";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp));
+    
 
-    koneksi::disconnect();
-    echo "<script> window.location.href = 'index.php?page=member' </script> ";
+        $pdo = Koneksi::connect();
+        $member = Member::getInstance($pdo);
+        if ($member->add($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp)) {
+            echo "<script>window.location.href = 'index.php?page=member'</script>";
+        } else {
+            echo "Terjadi kesalahan saat menyimpan data.";
+        }
 }
 ?>

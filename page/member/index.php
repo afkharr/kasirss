@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <div class="mb-4">
+        <div class="d-flex justify-content-between mb-4">
             <h3>Member</h3>
             <a href="index.php?page=member&act=tambah" class="btn btn-primary">Tambah Member</a>
         </div>
@@ -22,16 +22,20 @@
                         <th>Jenis Kelamin</th>
                         <th>Total Poin</th>
                         <th>No Tlp</th>
-                        <th>Actions</th>
+                        <th>aksi</th>
                     </tr>
 
                 </thead>
                 <tbody>
                 <?php
-                    $pdo = koneksi::connect();
-                    $sql ='SELECT * FROM member';
-                    foreach ($pdo->query($sql) as $row) {
-                    ?> 
+
+                        $pdo = Koneksi::connect();
+                        $member = Member::getInstance($pdo);
+                        $dataMember = $member->getAll();
+                        $no = 1;
+
+                        foreach ($dataMember as $row) {
+                        ?> 
                         <tr>
                             <td><?php echo htmlspecialchars($row['nama']); ?></td>
                             <td><?php echo htmlspecialchars($row['alamat']); ?></td>

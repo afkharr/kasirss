@@ -25,11 +25,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $pdo = koneksi::connect();
-                    $sql ='SELECT * FROM supplier';
-                    foreach ($pdo->query($sql) as $row) {
-                    ?>  
+                <?php
+
+                        $pdo = Koneksi::connect();
+                        $supplier = Supplier::getInstance($pdo);
+                        $dataSupplier = $supplier->getAll();
+                        $no = 1;
+
+                        foreach ($dataSupplier as $row) {
+                        ?> 
                         <tr>
                             <td><?php echo htmlspecialchars($row['nama_supplier']); ?></td>
                             <td><?php echo htmlspecialchars($row['alamat_supplier']); ?></td>

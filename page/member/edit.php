@@ -6,6 +6,8 @@ if (empty($_GET['id_member'])) {
 }
 
 $id_member = $_GET['id_member'];
+$pdo = Koneksi::connect();
+$member = Member::getInstance($pdo);
 
 if (isset($_POST['simpan'])) {
 
@@ -19,20 +21,24 @@ if (isset($_POST['simpan'])) {
     $sql = "UPDATE member SET nama = ?, alamat = ?, jenis_kelamin = ?, total_poin = ?, no_telp = ?  WHERE id_member = ?";
     $q = $pdo->prepare($sql);
     $q->execute(array($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp, $id_member));
-    koneksi::disconnect();
-
-    echo "<script> window.location.href = 'index.php?page=member' </script> ";
-    exit();
-} else {
-    $pdo = koneksi::connect();
-    $sql = "SELECT * FROM member WHERE id_member = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($id_member));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-
-    if (!$data) {
-        echo "<script> window.location.href = 'index.php?page=member' </script> ";
+   
+    $result = $member->update($id_member, $nama, $alamat, $jenis_kelamin, $total_poin, $no_telp);
+    
+    if ($result) {
+        echo "<script>window.location.href = 'index.php?page=member'</script>";
         exit();
+    } else {
+        echo "Terjadi kesalahan saat menyimpan data.";
+    } 
+
+
+
+   
+}
+    $data = $member->getID($id_member);
+    if (!$data) {
+    echo "<script>window.location.href = 'index.php?page=member'</script>";
+    exit();
     }
 
     $nama = $data['nama'];
@@ -40,8 +46,7 @@ if (isset($_POST['simpan'])) {
     $jenis_kelamin = $data['jenis_kelamin'];
     $total_poin = $data['total_poin'];
     $no_telp = $data['no_telp'];
-    koneksi::disconnect();
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

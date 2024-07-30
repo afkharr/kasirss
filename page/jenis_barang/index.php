@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <div class="mb-4">
+        <div class="d-flex justify-content-between mb-4">
             <h3>Jenis Barang</h3>
             <a href="index.php?page=jenis_barang&act=tambah" class="btn btn-primary">Tambah Jenis Barang</a>
         </div>

@@ -52,12 +52,15 @@ if(isset($_POST['simpan'])){
     $no_telp = $_POST['no_telp'];
     $no_rekening = $_POST['no_rekening'];
 
-    $pdo = koneksi::connect();
-    $sql = "INSERT INTO supplier (nama_supplier,alamat_supplier,no_telp,no_rekening) VALUES (?,?,?,?)";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nama_supplier,$alamat_supplier,$no_telp,$no_rekening));
+    
 
-    koneksi::disconnect();
-    echo "<script> window.location.href = 'index.php?page=supplier' </script> ";
-}
+        $pdo = Koneksi::connect();
+        $supplier = Supplier::getInstance($pdo);
+        if ($supplier->add($nama_supplier, $alamat_supplier, $no_telp, $no_rekening)) {
+            echo "<script>window.location.href = 'index.php?page=supplier'</script>";
+        } else {
+            echo "Terjadi kesalahan saat menyimpan data.";
+        }
+    }
+
 ?>

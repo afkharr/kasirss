@@ -1,11 +1,15 @@
 <?php 
 
+
 if (empty($_GET['id_supplier'])) {
     echo "<script> window.location.href = 'index.php?page=supplier' </script> ";
     exit();
 }
 
 $id_supplier = $_GET['id_supplier'];
+
+$pdo = Koneksi::connect();
+$supplier = Supplier::getInstance($pdo);
 
 if (isset($_POST['simpan'])) {
 
@@ -14,31 +18,28 @@ if (isset($_POST['simpan'])) {
     $no_telp = $_POST['no_telp'];
     $no_rekening = $_POST['no_rekening'];
 
-    $pdo = koneksi::connect();
-    $sql = "UPDATE supplier SET nama_supplier = ?, alamat_supplier = ?, no_telp = ?, no_rekening = ? WHERE id_supplier = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nama_supplier, $alamat_supplier, $no_telp, $no_rekening, $id_supplier));
-    koneksi::disconnect();
-
-    echo "<script> window.location.href = 'index.php?page=supplier' </script> ";
-    exit();
-} else {
-    $pdo = koneksi::connect();
-    $sql = "SELECT * FROM supplier WHERE id_supplier = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($id_supplier));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-
-    if (!$data) {
-        header("Location: index.php");
+    $result = $supplier->update($id_supplier, $nama_supplier, $alamat_supplier, $no_telp, $no_rekening);
+    
+    if ($result) {
+        echo "<script>window.location.href = 'index.php?page=supplier'</script>";
         exit();
+    } else {
+        echo "Terjadi kesalahan saat menyimpan data.";
     }
-    $nama_supplier = $data['nama_supplier'];
-    $alamat_supplier = $data['alamat_supplier'];
-    $no_telp = $data['no_telp'];
-    $no_rekening = $data['no_rekening'];
-    koneksi::disconnect();
 }
+
+$data = $supplier->getID($id_supplier);
+if (!$data) {
+    echo "<script>window.location.href = 'index.php?page=supplier'</script>";
+    exit();
+}
+
+$nama_supplier = $data['nama_supplier'];
+$alamat_supplier = $data['alamat_supplier'];
+$no_telp = $data['no_telp'];
+$no_rekening = $data['no_rekening'];
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
