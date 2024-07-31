@@ -17,10 +17,7 @@ if (isset($_POST['simpan'])) {
     $total_poin = $_POST['total_poin'];
     $no_telp = $_POST['no_telp'];
 
-    $pdo = koneksi::connect();
-    $sql = "UPDATE member SET nama = ?, alamat = ?, jenis_kelamin = ?, total_poin = ?, no_telp = ?  WHERE id_member = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp, $id_member));
+    
    
     $result = $member->update($id_member, $nama, $alamat, $jenis_kelamin, $total_poin, $no_telp);
     
