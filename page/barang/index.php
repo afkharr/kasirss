@@ -12,7 +12,7 @@
 <body>
     <div class="container mt-5">
         <div class="d-flex justify-content-between mb-4">
-            <h3>Tabel Barang</h3>
+            <h3>Barang</h3>
             <a href="index.php?page=barang&act=tambah" class="btn btn-primary">Tambah Barang</a>
         </div>
         <div>

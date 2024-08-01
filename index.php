@@ -43,6 +43,18 @@ switch ($halaman_get) {
         include('layouts/footer.php');
         break;
 
+    case 'user':
+        $title = "Halaman user";
+        include('layouts/header.php');
+        include('page/user/default.php');
+        include('layouts/footer.php');
+        break;
+
+    case 'login':
+        $title = "Halaman login";
+        include('page/user/login.php');
+        break;
+
     
     default:
         # code...
