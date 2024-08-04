@@ -21,7 +21,7 @@ class Barang
     public function updateWithoutImage($id_barang, $nama_barang, $id_jenis_barang, $harga_barang, $stok_barang, $id_supplier)
     {
         try {
-            $stmt = $this->db->prepare("UPDATE barang SET nama_barang=:nama_barang, id_jenis_barang=:id_jenis_barang, harga_barang=:harga_barang, stok_barang=:stok_barang, id_supplier=:id_supplierSS WHERE id_barang=:id_barang");
+            $stmt = $this->db->prepare("UPDATE barang SET nama_barang=:nama_barang, id_jenis_barang=:id_jenis_barang, harga_barang=:harga_barang, stok_barang=:stok_barang, id_supplier=:id_supplier WHERE id_barang=:id_barang");
 
             $stmt->bindParam(":id_barang", $id_barang);
             $stmt->bindParam(":nama_barang", $nama_barang);

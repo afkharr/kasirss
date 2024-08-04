@@ -29,63 +29,78 @@ $jumlah_member = $resultMember->fetchColumn();
     
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        </div>
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
 
-        <!-- Content Row -->
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="card border-primary">
-                    <div class="card-body">
-                        <h2><a href="index.php?page=user">User</a></h2>
-                        0
-                    </div>
+    <!-- Content Row -->
+    <?php if ($_SESSION['user']['role'] == "super_admin") : ?>
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h2><a href="index.php?page=user">User</a></h2>
+                    0
                 </div>
             </div>
-            <div class="col-lg-3">
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="row">
+        <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+        <div class="col-lg-3 mb-4">
             <div class="card border-primary">
-                    <div class="card-body">
+                <div class="card-body">
                     <h2><a href="index.php?page=member">Member</a></h2>
                     <?= $jumlah_member ?>
-                    </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+        </div>
+        <?php endif; ?>
+
+        <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin") : ?>
+        <div class="col-lg-3 mb-4">
             <div class="card border-primary">
-                    <div class="card-body">
+                <div class="card-body">
                     <h2><a href="index.php?page=supplier">Supplier</a></h2>
                     <?= $jumlah_supplier ?>
-                    </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 
-        <div class="row mt-3">
-            <div class="col-lg-3">
+        <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+        <div class="col-lg-3 mb-4">
             <div class="card border-primary">
-                    <div class="card-body">
+                <div class="card-body">
                     <h2><a href="index.php?page=jenis_barang">Jenis Barang</a></h2>
                     <?= $jumlah_jenis_barang ?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-            <div class="card border-primary">
-                    <div class="card-body">
-                    <h2><a href="index.php?page=barang">Barang</a></h2>
-                    <?= $jumlah_barang ?>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-            <div class="card border-primary">
-                    <div class="card-body">
-                    <h2><a href="index.php?page=transaksi">Transaksi</a></h2>
-                    <?= $jumlah_transaksi ?>
-                    </div>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 
+        <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+        <div class="col-lg-3 mb-4">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h2><a href="index.php?page=barang">Barang</a></h2>
+                    <?= $jumlah_barang ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+        <div class="col-lg-3 mb-4">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h2><a href="index.php?page=transaksi">Transaksi</a></h2>
+                    <?= $jumlah_transaksi ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
-    <!-- /.container-fluid -->
+</div>
+<!-- /.container-fluid -->

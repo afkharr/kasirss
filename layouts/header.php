@@ -44,81 +44,86 @@
             <!-- Heading -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Barang</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Barang:</h6>
-                        <a class="collapse-item" href="index.php?page=barang">Barang</a>
-                        <a class="collapse-item" href="index.php?page=jenis_barang">Jenis Barang</a>
+            <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Barang</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Barang:</h6>
+                            <a class="collapse-item" href="index.php?page=barang">Barang</a>
+                            <a class="collapse-item" href="index.php?page=jenis_barang">Jenis Barang</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php endif; ?>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-shopping-cart"></i>
-                    <span>Transaksi</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Transaksi:</h6>
-                        <a class="collapse-item" href="index.php?page=transaksi">Transaksi</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember"
-                     aria-expanded="true" aria-controls="collapseMember">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Member</span>
-                 </a>
-                <div id="collapseMember" class="collapse" aria-labelledby="headingMember"
-                     data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Member:</h6>
-                <a class="collapse-item" href="index.php?page=member">Member</a>
-                </div>
-                 </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupplier"
-                     aria-expanded="true" aria-controls="collapseSupplier">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Supplier</span>
-                </a>
-                 <div id="collapseSupplier" class="collapse" aria-labelledby="headingSupplier" data-parent="#accordionSidebar">
-                 <div class="bg-white py-2 collapse-inner rounded">
-                 <h6 class="collapse-header">Supplier:</h6>
-                <a class="collapse-item" href="index.php?page=supplier">Supplier</a>
-                </div>
-                </div>
-                </li>
-
+            <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
                 <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
-                     aria-expanded="true" aria-controls="collapseUser">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>User</span>
-                </a>
-                 <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
-                 <div class="bg-white py-2 collapse-inner rounded">
-                 <h6 class="collapse-header">User:</h6> 
-                <a class="collapse-item" href="index.php?page=user">User</a>
-                </div>
-                </div>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-shopping-cart"></i>
+                        <span>Transaksi</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Transaksi:</h6>
+                            <a class="collapse-item" href="index.php?page=transaksi">Transaksi</a>
+                        </div>
                 </li>
+            <?php endif; ?>
 
-            
 
-            
+            <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin" || $_SESSION['user']['role'] == "kasir") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Member</span>
+                    </a>
+                    <div id="collapseMember" class="collapse" aria-labelledby="headingMember" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Member:</h6>
+                            <a class="collapse-item" href="index.php?page=member">Member</a>
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupplier" aria-expanded="true" aria-controls="collapseSupplier">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Supplier</span>
+                    </a>
+                    <div id="collapseSupplier" class="collapse" aria-labelledby="headingSupplier" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Supplier:</h6>
+                            <a class="collapse-item" href="index.php?page=supplier">Supplier</a>
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+            <?php if ($_SESSION['user']['role'] == "super_admin") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>User</span>
+                    </a>
+                    <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">User:</h6>
+                            <a class="collapse-item" href="index.php?page=user">User</a>
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+
+
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -129,7 +134,7 @@
             </div>
 
             <!-- Sidebar Message -->
-           
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -153,15 +158,12 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">admin</span>
-                                <img class="img-profile rounded-circle"
-                                    src="assets/img/undraw_profile.svg">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['user']['username'] ?></span>
+                                <img class="img-profile rounded-circle" src="assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile

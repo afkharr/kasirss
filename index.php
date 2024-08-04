@@ -1,10 +1,23 @@
 <?php
+session_start();
 
-if(isset($_GET['page']))
-{
+
+if (isset($_GET['page'])) {
     $halaman_get = $_GET['page'];
-}else{
+} else {
     $halaman_get = "";
+}
+
+if (!isset($_SESSION['user'])) {
+    if ($halaman_get != 'login' &&  $halaman_get == "register") {
+        header('location: index.php?page=login');
+    }
+}
+
+if (isset($_SESSION['user'])) {
+    if ($halaman_get == "login" ||  $halaman_get == "register") {
+        header('Location: index.php?');
+    }
 }
 
 switch ($halaman_get) {
@@ -54,8 +67,17 @@ switch ($halaman_get) {
         $title = "Halaman login";
         include('page/user/login.php');
         break;
-
     
+    case 'logout':
+        include('page/user/logout.php');
+        break;
+
+    case 'register':
+        $title = "Halaman register";
+        include('page/user/register.php');
+        break;
+
+
     default:
         # code...
         $title = "Halaman Utama";
@@ -64,5 +86,3 @@ switch ($halaman_get) {
         include('layouts/footer.php');
         break;
 }
-
-?>
