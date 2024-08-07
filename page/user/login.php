@@ -73,10 +73,15 @@ if (isset($_POST['login'])) {
                                     </div>
                                     <form class="user" action="" method="post">
                                         <div class="form-group">
-                                            <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                                            <label for="username">Email</label>
+                                            <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                                        </div>
+                                        <div class="text-right">
+                                            <a class="small" href="index.php?page=forgot-password">Forgot Password?</a>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                            <label for="username">Password</label>
+                                            <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -93,7 +98,7 @@ if (isset($_POST['login'])) {
                                     <hr>
 
                                     <div class="text-center">
-                                    <a href="index.php?page=register">Create One</a>
+                                        <a href="index.php?page=register">Create One</a>
                                     </div>
                                 </div>
                             </div>

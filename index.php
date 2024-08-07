@@ -9,16 +9,29 @@ if (isset($_GET['page'])) {
 }
 
 if (!isset($_SESSION['user'])) {
-    if ($halaman_get != 'login' &&  $halaman_get == "register") {
-        header('location: index.php?page=login');
+    if ($halaman_get == "register" || $halaman_get == "forgot-password") {
+        // Allow the user to access the register or forgot-password pages
+    } else if ($halaman_get != "login") {
+        // Force the user to go to the login page
+        header('Location: index.php?page=login');
+        exit();
+    }
+} else {
+    // User is already logged in
+    if ($halaman_get == "login" || $halaman_get == "forgot-password") {
+        // Redirect to the dashboard (index.php)
+        header('Location: index.php');
+        exit();
     }
 }
 
 if (isset($_SESSION['user'])) {
-    if ($halaman_get == "login" ||  $halaman_get == "register") {
-        header('Location: index.php?');
+    if ($halaman_get == "login" || $halaman_get == "register" || $halaman_get == "forgot-password") {
+        header('Location: index.php');
+        exit();
     }
 }
+
 
 switch ($halaman_get) {
     case 'barang':
@@ -67,7 +80,7 @@ switch ($halaman_get) {
         $title = "Halaman login";
         include('page/user/login.php');
         break;
-    
+
     case 'logout':
         include('page/user/logout.php');
         break;
@@ -75,6 +88,11 @@ switch ($halaman_get) {
     case 'register':
         $title = "Halaman register";
         include('page/user/register.php');
+        break;
+
+    case 'forgot-password':
+        $title = "Halaman forgot-password";
+        include('page/user/forgot-password.php');
         break;
 
 
