@@ -4,9 +4,15 @@
 
  $id_member = $_GET['id_member'];
 
-        $pdo = koneksi::connect();
-        $sql = "DELETE FROM member WHERE id_member = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id_member));
-        koneksi::disconnect();
-        echo "<script> window.location.href = 'index.php?page=member' </script> ";
+ $pdo = koneksi::connect();
+ $member = Member::getInstance($pdo);
+ $result = $member->delete($id_member);
+ koneksi::disconnect();
+ 
+ if ($result) {
+    echo '<script>window.location="index.php?page=member&alert=hapus"</script>';
+} else {
+     echo "Terjadi kesalahan saat menghapus data.";
+ }
+ 
+ ?>

@@ -18,7 +18,7 @@ class Member
         return self::$instance;
     }
 
-    // FUNCTION TAMBAH SUPPLIER START
+    // FUNCTION TAMBAH MEMBER START
     public function add($nama, $alamat, $jenis_kelamin, $total_poin, $no_telp)
     {
         try {
@@ -48,9 +48,9 @@ class Member
             return false;
         }
     }
-    // FUNCTION TAMBAH SUPPLIER END
+    // FUNCTION TAMBAH MEMBER END
 
-    // FUNCTION EDIT SUPPLIER START
+    // FUNCTION EDIT MEMBER START
     public function update($id_member, $nama, $alamat, $jenis_kelamin, $total_poin, $no_telp)
     {
         try {
@@ -68,9 +68,9 @@ class Member
             return false;
         }
     }
-    // FUNCTION EDIT SUPPLIER END
+    // FUNCTION EDIT MEMBER END
 
-    // FUNCTION DELETE SUPPLIER START
+    // FUNCTION DELETE MEMBER START
     public function delete($id_member)
     {
         try {
@@ -83,9 +83,9 @@ class Member
             return false;
         }
     }
-    // FUNCTION DELETE SUPPLIER END
+    // FUNCTION DELETE MEMBER END
 
-    // FUNCTION GET ALL SUPPLIER START
+    // FUNCTION GET ALL MEMBER START
     public function getAll()
     {
         try {
@@ -98,6 +98,6 @@ class Member
             return false;
         }
     }
-    // FUNCTION GET ALL SUPPLIER END
+    // FUNCTION GET ALL MEMBER END
 }
 ?>

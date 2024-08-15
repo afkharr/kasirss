@@ -62,7 +62,7 @@ class User
             $stmt->bindParam(":email", $email);
             $stmt->bindParam(":role", $role);
             $stmt->execute();
-            return true;                
+            return true;
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
@@ -99,5 +99,19 @@ class User
         }
     }
     // function for menampilkan semua user doneee
+
+    public function gantiPasswordUser($id, $password)
+    {
+
+        try {
+            $hash = password_hash($password, PASSWORD_BCRYPT);
+            $stmt = $this->db->prepare("UPDATE user SET password = :password WHERE id_user = :id_user");
+            $stmt->bindParam(":password", $hash);
+            $stmt->bindParam(":id_user", $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }
-?> 

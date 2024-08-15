@@ -1,106 +1,88 @@
 <?php
 session_start();
+include("database/config.php");
+include("database/class/auth.php");
 
+$pdo = koneksi::connect();
+$user = Auth::getInstance($pdo);
 
-if (isset($_GET['page'])) {
-    $halaman_get = $_GET['page'];
-} else {
-    $halaman_get = "";
-}
-
-if (!isset($_SESSION['user'])) {
-    if ($halaman_get == "register" || $halaman_get == "forgot-password") {
-        // Allow the user to access the register or forgot-password pages
-    } else if ($halaman_get != "login") {
-        // Force the user to go to the login page
-        header('Location: index.php?page=login');
-        exit();
+if (!$user->isLoggedIn()) {
+    $login = isset($_GET['auth']) ? $_GET['auth'] : 'auth';
+    switch ($login) {
+        case 'login':
+            include('auth/login.php');
+            break;
+        case 'register':
+            include('auth/register.php');
+            break;
+        case 'forgot-password':
+            include('auth/forgot-password.php');
+            break;
+        default:
+            include('auth/login.php');
+            break;
     }
 } else {
-    // User is already logged in
-    if ($halaman_get == "login" || $halaman_get == "forgot-password") {
-        // Redirect to the dashboard (index.php)
-        header('Location: index.php');
-        exit();
-    }
+
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+        <title>Kasirss</title>
+        <?php include 'layouts/load_css.php'; ?>
+    </head>
+
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <!-- Header -->
+            <?php include 'layouts/header.php'; ?>
+            <!-- Sidebar -->
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section">
+                    <?php
+                    $page = isset($_GET["page"]) ? $_GET["page"] : 'dashboard';
+                    switch ($page) {
+                        case 'user':
+                            include('page/user/default.php');
+                            break;
+                        case 'member':
+                            include('page/member/default.php');
+                            break;
+                        case 'barang':
+                            include('page/barang/default.php');
+                            break;
+                        case 'jenis_barang':
+                            include('page/jenis_barang/default.php');
+                            break;
+                        case 'supplier':
+                            include('page/supplier/default.php');
+                            break;
+                        case 'transaksi':
+                            include('page/transaksi/default.php');
+                            break;
+                        case 'dashboard':
+                        default:
+                            include('page/dashboard/default.php');
+                            break;
+                    }
+                    ?>
+                </section>
+            </div>
+
+            <!-- Footer -->
+            <?php include 'layouts/footer.php'; ?>
+        </div>
+
+        <?php include 'layouts/load_js.php'; ?>
+    </body>
+
+    </html>
+<?php
 }
 
-if (isset($_SESSION['user'])) {
-    if ($halaman_get == "login" || $halaman_get == "register" || $halaman_get == "forgot-password") {
-        header('Location: index.php');
-        exit();
-    }
-}
-
-
-switch ($halaman_get) {
-    case 'barang':
-        $title = "Halaman Barang";
-        include('layouts/header.php');
-        include('page/barang/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'jenis_barang':
-        $title = "Halaman Jenis Barang";
-        include('layouts/header.php');
-        include('page/jenis_barang/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'member':
-        $title = "Halaman Member";
-        include('layouts/header.php');
-        include('page/member/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'supplier':
-        $title = "Halaman Supplier";
-        include('layouts/header.php');
-        include('page/supplier/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'transaksi':
-        $title = "Halaman Transaksi";
-        include('layouts/header.php');
-        include('page/transaksi/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'user':
-        $title = "Halaman user";
-        include('layouts/header.php');
-        include('page/user/default.php');
-        include('layouts/footer.php');
-        break;
-
-    case 'login':
-        $title = "Halaman login";
-        include('page/user/login.php');
-        break;
-
-    case 'logout':
-        include('page/user/logout.php');
-        break;
-
-    case 'register':
-        $title = "Halaman register";
-        include('page/user/register.php');
-        break;
-
-    case 'forgot-password':
-        $title = "Halaman forgot-password";
-        include('page/user/forgot-password.php');
-        break;
-
-
-    default:
-        # code...
-        $title = "Halaman Utama";
-        include('layouts/header.php');
-        include('default.php');
-        include('layouts/footer.php');
-        break;
-}
+?>

@@ -1,19 +1,21 @@
 <?php
-    require_once 'database/config.php';
-    require_once 'database/class/auth.php';
+require_once 'database/config.php';
+require_once 'database/class/auth.php';
 
-   $pdo = Koneksi::connect();
-   $auth = Auth::getInstance($pdo);
+$pdo = Koneksi::connect();
+$auth = Auth::getInstance($pdo);
 
 if (isset($_POST["reset"])) {
     $username = htmlspecialchars($_POST["username"]);
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
 
-    if ($user->forgotPassword($username, $email, $password)) {
-        echo "<script>alert('bisa')</script>";
+    if (empty($username) || empty($email) || empty($password)) {
+        echo "<script>window.location = 'index.php?auth=forgot-password&alert=err1';</script>";
+    } else if ($auth->forgotPassword($username, $email, $password)) {
+        echo "<script>window.location = 'index.php?auth=forgot-password&alert=pass';</script>";
     } else {
-        echo "<script>alert('enggak')</script>";
+        echo "<script>window.location = 'index.php?auth=forgot-password&alert=errPass';</script>";
     }
 }
 
@@ -37,6 +39,8 @@ if (isset($_POST["reset"])) {
 
     <!-- Custom styles for this template-->
     <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -56,24 +60,24 @@ if (isset($_POST["reset"])) {
                                         <p class="mb-4">We get it, stuff happens. Just enter your email address below
                                             and we'll send you a link to reset your password!</p>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="post" action="">
                                         <div class="form-group">
                                             <label for="username">Username</label>
-                                            <input id="username" type="text" class="form-control" name="username" autocomplete="off" required>
+                                            <input id="username" type="text" class="form-control" name="username" autocomplete="off">
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input id="email" type="email" class="form-control" name="email" autocomplete="off" required>
+                                            <input id="email" type="email" class="form-control" name="email" autocomplete="off">
                                         </div>
                                         <div class="form-group">
                                             <label for="password"> New Password</label>
-                                            <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password" autocomplete="off" required>
+                                            <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password" autocomplete="off">
                                         </div>
                                         <button type="submit" name="reset" class="btn btn-primary btn-user btn-block">
                                             Reset Password
                                         </button>
                                         <div class="mt-5 text-muted text-center">
-                                             <a href="index.php?auth=login">Back To Login Menu</a>
+                                            <a href="index.php?auth=login">Back To Login Menu</a>
                                         </div>
                                     </form>
                                     <hr>
@@ -95,6 +99,43 @@ if (isset($_POST["reset"])) {
 
     <!-- Custom scripts for all pages-->
     <script src="assets/js/sb-admin-2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            <?php if (isset($_GET['alert'])) { ?>
+                switch ("<?php echo $_GET['alert']; ?>") {
+                    case "pass":
+                        Swal.fire({
+                            icon: "success",
+                            title: 'Berhasil Mengganti Password!',
+                            text: 'Anda telah berhasil terdaftar. Silakan login.'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = 'index.php?auth=login.php';
+                            }
+                        });
+                        break;
+                    case "errPass":
+                        Swal.fire({
+                            icon: "error",
+                            title: 'Salah bg email nya!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        break;
+                    case "err1":
+                        Swal.fire({
+                            icon: "warning",
+                            title: 'Isi dulu bg!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        break;
+                        // Tambahkan case lain di sini jika diperlukan
+                }
+            <?php } ?>
+        });
+    </script>
 </body>
 
 </html>

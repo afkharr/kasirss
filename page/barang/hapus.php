@@ -10,8 +10,8 @@
  koneksi::disconnect();
  
  if ($result) {
-     echo "<script>window.location.href = 'index.php?page=barang';</script>";
- } else {
+    echo '<script>window.location="index.php?page=barang&alert=hapus"</script>';
+} else {
      echo "Terjadi kesalahan saat menghapus data.";
  }
  

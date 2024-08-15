@@ -1,4 +1,11 @@
 <?php
+if ($_SESSION['user']['role'] == "kasir" || $_SESSION['user']['role'] == "admin") {
+    echo "<script>
+    window.location = 'index.php?alert=err2';
+    </script>";}
+?>
+
+<?php
 // Pastikan ada ID user
 if (empty($_GET['id_user'])) {
     echo "<script>window.location.href = 'index.php?page=user'</script>";
@@ -20,7 +27,7 @@ if (isset($_POST['simpan'])) {
     $role = ($_POST['role']);
 
     $result = $user->edit($id_user, $username, $password, $email, $nama, $role);
-    
+
     if ($result) {
         echo "<script>window.location.href = 'index.php?page=user'</script>";
         exit();
@@ -43,18 +50,6 @@ $nama = htmlspecialchars($data['nama']);
 $role = ($data['role']);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit User</title>
-    <!-- AdminLTE CSS -->
-    <link rel="stylesheet" href="asset/dist/css/adminlte.min.css">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="asset/plugins/fontawesome-free/css/all.min.css">
-</head>
-<body>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container mt-5">
@@ -87,8 +82,9 @@ $role = ($data['role']);
                         <option value="kasir" <?php if ($role == 'kasir') echo 'selected'; ?>>kasir</option>
                     </select>
                 </div>
-               
+
                 <div class="form-group">
+                    <a href="index.php?page=user&act=ganti_password&id_user=<?= $id_user ?>" class="btn btn-success">Ganti Password</a>
                     <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
                     <a href="index.php?page=user" class="btn btn-secondary">Kembali</a>
                 </div>
@@ -96,12 +92,3 @@ $role = ($data['role']);
         </div>
     </div>
 </div>
-
-<!-- AdminLTE JS -->
-<script src="asset/dist/js/adminlte.min.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
-</html>

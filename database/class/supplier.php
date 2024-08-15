@@ -73,7 +73,7 @@ class Supplier
     {
         try {
             $stmt = $this->db->prepare("DELETE FROM supplier WHERE id_supplier = :id_supplier");
-            $stmt->bindParam(":id_supllier", $id_supplier);
+            $stmt->bindParam(":id_supplier", $id_supplier);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
