@@ -9,8 +9,6 @@ $user = User::getInstance($pdo);
 $result = $user->hapus($id_user);
 koneksi::disconnect();
 
-if ($result) {
-    echo "<script>window.location.href = 'index.php?page=user';</script>";
-} else {
-    echo "Terjadi kesalahan saat menghapus data.";
+if ($user->hapus($id_user) == true) {
+    echo "<script>window.location.href = 'index.php?page=user&alert=hapus'</script>";
 }

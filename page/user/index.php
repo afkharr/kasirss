@@ -42,8 +42,8 @@ if ($_SESSION['user']['role'] == "kasir" || $_SESSION['user']['role'] == "admin"
                                 <a href="index.php?page=user&act=edit&id_user=<?php echo htmlspecialchars($row['id_user']); ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <a href="index.php?page=user&act=hapus&id_user=<?php echo htmlspecialchars($row['id_user']); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda ingin menghapus data ini?')">
-                                    <i class="fas fa-trash"></i> Hapus
+                                <a class="btn btn-danger btn-sm" onclick="hapus_user(<?= $row['id_user'] ?>)">Hapus</a>
+
                                 </a>
                             </td>
                         </tr>
@@ -59,3 +59,40 @@ if ($_SESSION['user']['role'] == "kasir" || $_SESSION['user']['role'] == "admin"
         </table>
     </div>
 </div>
+
+<script>
+        function hapus_user(id) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-primary mx-4',
+                    cancelButton: 'btn btn-danger mx-4'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Hapus Data User',
+                text: "Data kamu nggak bisa kembali lagi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, menghapus !',
+                cancelButtonText: 'Tidak, batal !',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Hapus!',
+                        'File kamu telah dihapus.',
+                        'success'
+                    )
+                    window.location.href = 'index.php?page=user&act=hapus&id_user=' + id;
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Batal',
+                        'File kamu masih aman :)',
+                        'error'
+                    )
+                }
+            })
+        }
+    </script>

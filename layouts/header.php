@@ -7,7 +7,7 @@
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+                <i class="fas fa-cash-register"></i>
             </div>
             <div class="sidebar-brand-text mx-3">KASIRSS <sup>2</sup></div>
         </a>
@@ -18,7 +18,7 @@
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="index.php">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <i class="fas fa-fw fa-home"></i>
                 <span>Dashboard</span></a>
         </li>
 
@@ -28,71 +28,71 @@
         <!-- Heading -->
 
         <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-box fa-2x text-gray-300"></i>
                 <span>Barang</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Barang:</h6>
-                        <a class="collapse-item" href="index.php?page=barang">Barang</a>
-                        <a class="collapse-item" href="index.php?page=jenis_barang">Jenis Barang</a>
-                    </div>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Barang:</h6>
+                    <a class="collapse-item" href="index.php?page=barang">Barang</a>
+                    <a class="collapse-item" href="index.php?page=jenis_barang">Jenis Barang</a>
                 </div>
-            </li>
+            </div>
+        </li>
         <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                 <span>Transaksi</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Transaksi:</h6>
-                        <a class="collapse-item" href="index.php?page=transaksi">Transaksi</a>
-                    </div>
-            </li>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Transaksi:</h6>
+                    <a class="collapse-item" href="index.php?page=transaksi">Transaksi</a>
+                </div>
+        </li>
 
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMember" aria-expanded="true" aria-controls="collapseMember">
                 <i class="fas fa-users fa-2x text-gray-300"></i>
                 <span>Member</span>
-                </a>
-                <div id="collapseMember" class="collapse" aria-labelledby="headingMember" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Member:</h6>
-                        <a class="collapse-item" href="index.php?page=member">Member</a>
-                    </div>
+            </a>
+            <div id="collapseMember" class="collapse" aria-labelledby="headingMember" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Member:</h6>
+                    <a class="collapse-item" href="index.php?page=member">Member</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupplier" aria-expanded="true" aria-controls="collapseSupplier">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSupplier" aria-expanded="true" aria-controls="collapseSupplier">
                 <i class="fas fa-truck fa-2x text-gray-300"></i>
                 <span>Supplier</span>
-                </a>
-                <div id="collapseSupplier" class="collapse" aria-labelledby="headingSupplier" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Supplier:</h6>
-                        <a class="collapse-item" href="index.php?page=supplier">Supplier</a>
-                    </div>
+            </a>
+            <div id="collapseSupplier" class="collapse" aria-labelledby="headingSupplier" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Supplier:</h6>
+                    <a class="collapse-item" href="index.php?page=supplier">Supplier</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseUser">
                 <i class="fas fa-user fa-2x text-gray-300"></i>
                 <span>User</span>
-                </a>
-                <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User:</h6>
-                        <a class="collapse-item" href="index.php?page=user">User</a>
-                    </div>
+            </a>
+            <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">User:</h6>
+                    <a class="collapse-item" href="index.php?page=user">User</a>
                 </div>
-            </li>
+            </div>
+        </li>
 
 
 

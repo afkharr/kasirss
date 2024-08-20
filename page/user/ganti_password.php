@@ -34,15 +34,16 @@ if (isset($_POST['simpan'])) {
     $konfirmasi_password_lama = password_verify($password_lama, $password);
 
     if ($konfirmasi_password_lama) {
-        $result = $user->gantiPasswordUser($id_user, $password_baru);
-        if ($result) {
-            echo "<script> alert('berhasil') </script>";
-        }
+        $user->gantiPasswordUser($id_user, $password_baru);
     } else {
-        echo "<script> alert('password tidak sama dengan yang lama!') </script>";
+        echo "<script>
+        window.location.href = 'index.php?page=user&act=ganti_password&id_user={$id_user}&alert=err3';
+        </script>";
+        exit();
     }
 }
 ?>
+
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -54,13 +55,12 @@ if (isset($_POST['simpan'])) {
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Password Lama</label>
-                    <input name="password_lama" type="text" class="form-control" placeholder="Password Lama" required>
+                    <input name="password_lama" type="password" class="form-control" placeholder="Password Lama" required>
                 </div>
                 <div class="form-group">
                     <label>Password Baru</label>
-                    <input name="password_baru" type="text" class="form-control" placeholder="Password Baru" required>
+                    <input name="password_baru" type="password" class="form-control" placeholder="Password Baru" required>
                 </div>
-
 
                 <div class="form-group">
                     <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>

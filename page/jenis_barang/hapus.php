@@ -1,12 +1,16 @@
 <?php
 
- if(empty($_GET['id_jenis_barang'])) header("Location: index.php");
+if (empty($_GET['id_jenis_barang'])) header("Location: index.php");
 
- $id_jenis_barang = $_GET['id_jenis_barang'];
+$id_jenis_barang = $_GET['id_jenis_barang'];
 
- $pdo = koneksi::connect();
- $sql = "DELETE FROM jenis_barang WHERE id_jenis_barang = ?";
- $q = $pdo->prepare($sql);
- $q->execute(array($id_jenis_barang));
- koneksi::disconnect();
- echo "<script> window.location.href = 'index.php?page=jenis_barang' </script> ";
+$pdo = koneksi::connect();
+$jenis_barang = Jenisbarang::getInstance($pdo);
+$result = $jenis_barang->delete($id_jenis_barang);
+koneksi::disconnect();
+
+if ($result) {
+    echo "<script>window.location.href = 'index.php?page=jenis_barang';</script>";
+} else {
+    echo "Terjadi kesalahan saat menghapus data.";
+}

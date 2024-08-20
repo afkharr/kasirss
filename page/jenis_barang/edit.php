@@ -1,52 +1,52 @@
 <?php
-
 if (empty($_GET['id_jenis_barang'])) {
-    echo "<script> window.location.href = 'index.php?page=jenis_barang' </script> ";
+    echo "<script>window.location.href = 'index.php?page=jenis_barang'</script>";
     exit();
 }
 
 $id_jenis_barang = $_GET['id_jenis_barang'];
+$pdo = koneksi::connect();
+$jenis_barang = Jenisbarang::getInstance($pdo);
 
 if (isset($_POST['simpan'])) {
+    $nama_jenis_barang = htmlspecialchars($_POST['nama_jenis_barang']);
 
-    $nama_jenis_barang = $_POST['nama_jenis_barang'];
-
-    $pdo = koneksi::connect();
-    $sql = "UPDATE jenis_barang SET nama_jenis_barang = ? WHERE id_jenis_barang = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nama_jenis_barang, $id_jenis_barang));
-    koneksi::disconnect();
-
-    echo "<script> window.location.href = 'index.php?page=jenis_barang' </script> ";
-    exit();
-} else {
-    $pdo = koneksi::connect();
-    $sql = "SELECT * FROM jenis_barang WHERE id_jenis_barang = ?";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($id_jenis_barang));
-    $data = $q->fetch(PDO::FETCH_ASSOC);
-
-    if (!$data) {
-        echo "<script> window.location.href = 'index.php?page=jenis_barang' </script> ";
+    if (empty($nama_jenis_barang)) {
+        echo '<script>window.location="index.php?page=jenis_barang&alert=err1"</script>'; 
         exit();
     }
 
-    $nama_jenis_barang = $data['nama_jenis_barang'];
-    koneksi::disconnect();
+    if ($jenis_barang->update($id_jenis_barang, $nama_jenis_barang)) {
+        echo '<script>window.location="index.php?page=jenis_barang&alert=success1"</script>';
+        exit();
+    } else {
+        echo "Terjadi kesalahan saat menyimpan data.";
+    }
+} else {
+    $data = $jenis_barang->getID($id_jenis_barang);
+
+    if (!$data) {
+        echo "<script>window.location.href = 'index.php?page=jenis_barang'</script>";
+        exit();
+    }
+
+    $nama_jenis_barang = htmlspecialchars($data['nama_jenis_barang']);
 }
 ?>
+
 <div class="container mt-5">
-    <div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <h3>Edit Jenis Barang</h3>
     </div>
     <form action="" method="post">
         <div class="form-group">
-            <label>Nama Jenis Barang</label>
-            <input name="nama_jenis_barang" type="text" class="form-control" placeholder="Nama jenis Barang" required value="<?php echo htmlspecialchars($nama_jenis_barang); ?>">
+            <label for="namaJenisBarang">Jenis Barang</label>
+            <input name="nama_jenis_barang" type="text" class="form-control" id="namaJenisBarang" placeholder="Jenis Barang"  value="<?php echo htmlspecialchars($nama_jenis_barang); ?>">
         </div>
-        <div class="form-group">
-            <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
-            <a href="index.php?page=jenis_barang" class="btn btn-secondary">Kembali</a>
+        <input type="hidden" name="id_jenis_barang" value="<?php echo htmlspecialchars($id_jenis_barang); ?>">
+        <div class="form-group mt-4">
+        <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
+        <a href="index.php?page=jenis_barang" class="btn btn-secondary">Kembali</a>
         </div>
     </form>
 </div>

@@ -22,6 +22,9 @@ class User
     public function tambah($username, $password, $email, $nama, $role)
     {
         try {
+            if ($this->cekUsernameDanEmail($username, $email)) {
+                return false;
+            }
             $stmt = $this->db->prepare("INSERT INTO user (username, password, email, nama, role) VALUES (:username, :password, :email, :nama, :role)");
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":password", $password);
@@ -51,14 +54,13 @@ class User
     // function for tambah user doneee
 
     // function for mengedit user dimulaiiiii 
-    public function edit($id_user, $username, $password, $email, $nama, $role)
+    public function edit($id_user, $username, $email, $nama, $role)
     {
         try {
-            $stmt = $this->db->prepare("UPDATE user SET  username = :username, password = :password, email = :email, nama = :nama, role = :role WHERE id_user = :id_user");
+            $stmt = $this->db->prepare("UPDATE user SET  username = :username, email = :email, nama = :nama, role = :role WHERE id_user = :id_user");
             $stmt->bindParam(":id_user", $id_user);
             $stmt->bindParam(":nama", $nama);
             $stmt->bindParam(":username", $username);
-            $stmt->bindParam(":password", $password);
             $stmt->bindParam(":email", $email);
             $stmt->bindParam(":role", $role);
             $stmt->execute();
@@ -100,16 +102,35 @@ class User
     }
     // function for menampilkan semua user doneee
 
-    public function gantiPasswordUser($id, $password)
+    public function gantiPasswordUser($id_user, $password_baru)
     {
 
         try {
-            $hash = password_hash($password, PASSWORD_BCRYPT);
+            $hash = password_hash($password_baru, PASSWORD_BCRYPT);
             $stmt = $this->db->prepare("UPDATE user SET password = :password WHERE id_user = :id_user");
             $stmt->bindParam(":password", $hash);
-            $stmt->bindParam(":id_user", $id);
+            $stmt->bindParam(":id_user", $id_user);
             $stmt->execute();
-            return true;
+            echo "<script>window.location.href ='index.php?page=user&alert=pass'</script>";
+            exit ;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function cekUsernameDanEmail($username, $email)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM user WHERE username = :username AND email = :email");
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+            $stmt->fetch();
+            if ($stmt->rowCount()  > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

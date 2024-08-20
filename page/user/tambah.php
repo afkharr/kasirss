@@ -11,9 +11,9 @@ if (isset($_POST['simpan'])) {
     $password = htmlspecialchars($_POST['password']);
     $email = htmlspecialchars($_POST['email']);
     $nama = htmlspecialchars($_POST['nama']);
-    $role = ($_POST['role']);
+    $role = htmlspecialchars($_POST['role']);  // Juga tambahkan htmlspecialchars pada role untuk keamanan
 
-    // Debugging output
+    // Debugging output (ini bisa dihapus jika sudah tidak diperlukan)
     echo "Username: $username <br>";
     echo "Password: $password <br>";
     echo "Email: $email <br>";
@@ -21,10 +21,18 @@ if (isset($_POST['simpan'])) {
     echo "Role: $role <br>";
 
     $pdo = Koneksi::connect();
-    $supplier = User::getInstance($pdo);
+    $user = User::getInstance($pdo);
 
-    if ($supplier->tambah($username, $password, $email, $nama, $role)) {
-        echo "<script>window.location.href = 'index.php?page=user'</script>";
+    // Cek jika ada input yang kosong
+    if (empty($username) || empty($password) || empty($email) || empty($nama) || empty($role)){
+        echo '<script>window.location="index.php?page=user&alert=err1"</script>';
+        exit();  // Tambahkan exit agar script berhenti jika ada input yang kosong
+    }
+
+    // Simpan data jika semua input terisi
+    if ($user->tambah($username, $password, $email, $nama, $role)) {
+        echo "<script>window.location.href = 'index.php?page=user&alert=success2'</script>";
+        exit();  // Tambahkan exit agar script berhenti setelah redirect
     } else {
         echo "Terjadi kesalahan saat menyimpan data.";
     }
@@ -32,6 +40,7 @@ if (isset($_POST['simpan'])) {
     Koneksi::disconnect();
 }
 ?>
+
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -43,23 +52,23 @@ if (isset($_POST['simpan'])) {
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Username</label>
-                    <input name="username" type="text" class="form-control" placeholder="Username" required>
+                    <input name="username" type="text" class="form-control" placeholder="Username" >
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input name="password" type="password" class="form-control" placeholder="Password" required>
+                    <input name="password" type="password" class="form-control" placeholder="Password" >
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input name="email" type="email" class="form-control" placeholder="Email" required>
+                    <input name="email" type="email" class="form-control" placeholder="Email" >
                 </div>
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input name="nama" type="text" class="form-control" placeholder="Nama Lengkap" required>
+                    <input name="nama" type="text" class="form-control" placeholder="Nama Lengkap" >
                 </div>
                 <div class="form-group">
                     <label>Role</label>
-                    <select name="role" class="form-control" required>
+                    <select name="role" class="form-control" >
                         <option value="super_admin">Super Admin</option>
                         <option value="admin">Admin</option>
                         <option value="kasir">Kasir</option>

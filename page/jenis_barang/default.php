@@ -1,4 +1,5 @@
 <?php
+include_once "database/class/jenisbarang.php";
 include_once "database/config.php";
 
 
