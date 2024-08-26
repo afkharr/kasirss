@@ -114,8 +114,8 @@ class Barang
         try {
             $stmt = $this->db->prepare("SELECT barang.*, jenis_barang.nama_jenis_barang, supplier.nama_supplier
                                         FROM barang
-                                        JOIN jenis_barang ON jenis_barang.id_jenis_barang = barang.id_jenis_barang
-                                        JOIN supplier ON supplier.id_supplier = barang.id_supplier;
+                                        LEFT JOIN jenis_barang ON jenis_barang.id_jenis_barang = barang.id_jenis_barang
+                                        LEFT JOIN supplier ON supplier.id_supplier = barang.id_supplier;
                                         ");
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -125,32 +125,84 @@ class Barang
             return false;
         }
     }
-    
-        // FUNCTION GET ALL BARANG END
 
-        public function getAllJenisBarang()
-        {
-            try {
-                $stmt = $this->db->prepare("SELECT * FROM jenis_barang");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $data;
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-                return false;
-            }
-        }
+    // FUNCTION GET ALL BARANG END
 
-        public function getAllSupplier()
-        {
-            try {
-                $stmt = $this->db->prepare("SELECT * FROM supplier");
-                $stmt->execute();
-                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $data;
-            } catch (PDOException $e) {
-                echo $e->getMessage();
-                return false;
-            }
+    public function getAllJenisBarang()
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM jenis_barang");
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
         }
+    }
+
+    public function getAllSupplier()
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM supplier");
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function kurangiStok($id_barang, $jumlah)
+    {
+        try {
+            // Cek apakah stok mencukupi
+            $stmt = $this->db->prepare("SELECT stok_barang FROM barang WHERE id_barang = :id_barang");
+            $stmt->bindParam(":id_barang", $id_barang);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($data['stok_barang'] < $jumlah) {
+                throw new Exception("stok_err");
+            }
+
+            // Lakukan pengurangan stok
+            $stmt = $this->db->prepare("UPDATE barang SET stok_barang = stok_barang - :jumlah WHERE id_barang = :id_barang");
+            $stmt->bindParam(":jumlah", $jumlah);
+            $stmt->bindParam(":id_barang", $id_barang);
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    // Function to get the stock of a specific item
+    public function getStokBarang($id_barang)
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT stok_barang FROM barang WHERE id_barang = :id_barang");
+            $stmt->bindParam(":id_barang", $id_barang);
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($data) {
+                return $data['stok_barang'];
+            } else {
+                throw new Exception("Barang tidak ditemukan");
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

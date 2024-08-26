@@ -99,5 +99,17 @@ class Member
         }
     }
     // FUNCTION GET ALL MEMBER END
+
+    public function getUmum()
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM member WHERE nama = 'Umum'");
+            $stmt->execute();
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data['id_member'];
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }
-?>

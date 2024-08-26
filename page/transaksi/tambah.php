@@ -1,50 +1,80 @@
 <?php
-
-if (isset($_POST['simpan'])) {
-    $nominal = $_POST['nominal'];
-    $total = $_POST['total'];
-    $tgl_waktu = $_POST['tgl_waktu'];
-    $kembalian = $_POST['kembalian'];
-    $total_diskon = $_POST['total_diskon'];
-
-    $pdo = koneksi::connect();
-    $sql = "INSERT INTO transaksi (nominal, total, tgl_waktu, kembalian, total_diskon) VALUES (?, ?, ?, ?, ?)";
-    $q = $pdo->prepare($sql);
-    $q->execute(array($nominal, $total, $tgl_waktu, $kembalian, $total_diskon));
-
-    koneksi::disconnect();
-    echo "<script> window.location.href = 'index.php?page=transaksi' </script> ";
+session_start();
+if ($_SESSION['user']['role'] == "superadmin" || $_SESSION['user']['role'] == "admin") {
+    echo "<script>
+    window.location = 'index.php?alert=err2';
+    </script>";
 }
 ?>
 
-<div class="container mt-5">
-    <div class="mb-4">
-        <h3>Tambah Transaksi</h3>
-    </div>
-    <form action="" method="post">
-        <div class="form-group">
-            <label>Nominal</label>
-            <input name="nominal" type="text" class="form-control" placeholder="Masukan nominal" required>
-        </div>
-        <div class="form-group">
-            <label>Total</label>
-            <input name="total" type="text" class="form-control" placeholder="Total" required>
-        </div>
-        <div class="form-group">
-            <label>Tgl Waktu</label>
-            <input name="tgl_waktu" type="datetime-local" class="form-control" placeholder="Tanggal waktu" required>
-        </div>
-        <div class="form-group">
-            <label>Kembalian</label>
-            <input name="kembalian" type="text" class="form-control" placeholder="Kembalian" required>
-        </div>
-        <div class="form-group">
-            <label>Total Diskon</label>
-            <input name="total_diskon" type="text" class="form-control" placeholder="Diskon" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
-            <a href="index.php" class="btn btn-secondary">Kembali</a>
-        </div>
-    </form>
-</div>
+<?php
+
+include_once "../../database/config.php";
+include_once "../../database/class/transaksi.php";
+include_once "../../database/class/barang.php";
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$transaksiData = $data['transaksi'];
+$transaksiDetailsData = $data['transaksiDetails'];
+
+$pdo = koneksi::connect();
+$transaksi = Transaksi::getInstance($pdo);
+$barang = Barang::getInstance($pdo);
+
+try {
+    // Mulai transaksi
+    $pdo->beginTransaction();
+
+    // Simpan transaksi
+    $idTransaksi = $transaksi->insertTransaksi(
+        $transaksiData['tanggal'],
+        $transaksiData['id_kasir'],
+        $transaksiData['id_member'],
+        $transaksiData['invoice'],
+        $transaksiData['subtotal'],
+        $transaksiData['total_keseluruhan'],
+        $transaksiData['nominal'],
+        $transaksiData['diskon'],
+        $transaksiData['kembalian'],
+        $transaksiData['catatan']
+    );
+
+    // Simpan detail transaksi dan kurangi stok barang
+    foreach ($transaksiDetailsData as $detail) {
+        // Cek stok barang sebelum menyimpan detail transaksi
+        $stokBarang = $barang->getStokBarang($detail['id_barang']); // Asumsikan ada fungsi getStokBarang()
+        if ($stokBarang < $detail['qty']) {
+            throw new Exception("stok_err"); // Lempar pengecualian jika stok tidak cukup
+        }
+
+        // Simpan detail transaksi
+        $transaksi->insertTransaksiDetails(
+            $idTransaksi,
+            $detail['id_barang'],
+            $detail['qty'],
+            $detail['harga'],
+            $detail['total_harga']
+        );
+
+        // Kurangi stok barang
+        $barang->kurangiStok($detail['id_barang'], $detail['qty']);
+    }
+
+    // Commit transaksi
+    $pdo->commit();
+
+    // Jika berhasil
+    echo json_encode(['success' => true]);
+} catch (Exception $e) {
+    // Rollback transaksi jika ada kesalahan
+    $pdo->rollBack();
+
+    // Cek jika pengecualian adalah "stok_err"
+    if ($e->getMessage() === "stok_err") {
+        echo json_encode(['success' => false, 'message' => 'Stok barang tidak mencukupi']);
+    } else {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
+?>
