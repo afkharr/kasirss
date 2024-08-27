@@ -6,7 +6,7 @@ include "database/class/transaksi.php";
 $act = isset($_GET['act']) ? $_GET['act'] : '';
 switch ($act) {
     case 'tambah':
-        include 'tambah.php';
+        include 'index.php';
         break;
     case 'edit':
         include 'edit.php';
@@ -15,6 +15,6 @@ switch ($act) {
         include 'hapus.php';
         break;
     default:
-        include 'index.php';
+        include 'laporan.php';
         break;
 }

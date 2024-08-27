@@ -61,7 +61,6 @@ $memberUmum = $member->getUmum();
                                         <option value="<?= $row['id_member'] ?>"><?= htmlspecialchars($row['nama']) ?></option>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-
                             </select>
                         </div>
                     </div>

@@ -1,17 +1,16 @@
-<?php
-session_start();
-if ($_SESSION['user']['role'] == "superadmin" || $_SESSION['user']['role'] == "admin") {
-    echo "<script>
-    window.location = 'index.php?alert=err2';
-    </script>";
-}
-?>
+    <?php
+    session_start();
+    if ($_SESSION['user']['role'] == "superadmin" || $_SESSION['user']['role'] == "admin") {
+        echo "<script> window.location = 'index.php?alert=err2'; </script>";
+    }
+    ?>
 
 <?php
 
 include_once "../../database/config.php";
 include_once "../../database/class/transaksi.php";
 include_once "../../database/class/barang.php";
+include_once "../../database/class/member.php";
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -21,6 +20,7 @@ $transaksiDetailsData = $data['transaksiDetails'];
 $pdo = koneksi::connect();
 $transaksi = Transaksi::getInstance($pdo);
 $barang = Barang::getInstance($pdo);
+$member = Member::getInstance($pdo);
 
 try {
     // Mulai transaksi
@@ -59,6 +59,26 @@ try {
 
         // Kurangi stok barang
         $barang->kurangiStok($detail['id_barang'], $detail['qty']);
+    }
+
+    // Tambahkan poin ke member, jika member bukan "Umum"
+    $id_member = $transaksiData['id_member'];
+    // $memberUmum = $member->getUmum(); // Asumsikan ini mendapatkan ID untuk member "Umum"
+    $id_member = $transaksiData['id_member'];
+    if ($id_member) {
+        $total_transaksi = $transaksiData['total_keseluruhan'];
+        $total_poin = floor($total_transaksi / 10000);
+
+        $memberData = $member->getID($id_member);
+        if (!$memberData) {
+            throw new Exception("Member tidak ditemukan.");
+        }
+
+        $total_poin_baru = $memberData['total_poin'] + $total_poin;
+
+        error_log("ID Member: $id_member, Poin Lama: " . $memberData['total_poin'] . ", Poin Baru: $total_poin_baru");
+        $member->tambahPoin($id_member, $total_poin_baru);
+        error_log("Update poin berhasil untuk ID Member: $id_member");
     }
 
     // Commit transaksi
