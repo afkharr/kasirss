@@ -13,15 +13,34 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Nama Lengkap</th>
-                            <th>Role</th>
-                            <th>Aksi</th>
+                            <th style="text-align: center; vertical-align: middle;">Tanggal</th>
+                            <th style="text-align: center; vertical-align: middle;">Nama</th>
+                            <th style="text-align: center; vertical-align: middle;">Invoice</th>
+                            <th style="text-align: center; vertical-align: middle;">Total Kesuluruhan</th>
+                            <th style="text-align: center; vertical-align: middle;">catatan</th>
+                            <th style="text-align: center; vertical-align: middle;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
+                        <?php
+                        $pdo = Koneksi::connect();
+                        $transaksi = Transaksi::getInstance($pdo);
+                        $datatransaksi = $transaksi->getAll();
+                        foreach ($datatransaksi as $row) {
+                        ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
+                                <td><?php echo htmlspecialchars($row['nama']); ?></td>
+                                <td><?php echo htmlspecialchars($row['invoice']); ?></td>
+                                <td><?php echo htmlspecialchars($row['total_keseluruhan']); ?></td>
+                                <td><?php echo htmlspecialchars($row['catatan']); ?></td>
+                                <td>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        Koneksi::disconnect();
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -29,41 +48,3 @@
     </div>
 
 </div>
-
-
-<script>
-    function hapus_user(id) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-primary mx-4',
-                cancelButton: 'btn btn-danger mx-4'
-            },
-            buttonsStyling: false
-        })
-
-        swalWithBootstrapButtons.fire({
-            title: 'Hapus Data User',
-            text: "Data kamu nggak bisa kembali lagi!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, menghapus !',
-            cancelButtonText: 'Tidak, batal !',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                swalWithBootstrapButtons.fire(
-                    'Hapus!',
-                    'File kamu telah dihapus.',
-                    'success'
-                )
-                window.location.href = 'index.php?page=user&act=hapus&id_user=' + id;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                swalWithBootstrapButtons.fire(
-                    'Batal',
-                    'File kamu masih aman :)',
-                    'error'
-                )
-            }
-        })
-    }
-</script>

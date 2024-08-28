@@ -372,8 +372,8 @@ $memberUmum = $member->getUmum();
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    // Tampilkan struk setelah transaksi berhasil
-                    showReceipt(transaksi, transaksiDetails);
+                    alert('Transaksi berhasil disimpan!');
+                    // Lakukan tindakan setelah sukses, seperti redirect atau reset form
                     document.querySelector('.btn-outline-success').disabled = true; // Disable tombol setelah sukses
                     window.location.reload();
                 } else {
@@ -385,72 +385,6 @@ $memberUmum = $member->getUmum();
                 alert('Terjadi kesalahan pada server.');
             });
     });
-
-    function showReceipt(transaksi, details) {
-        let receiptWindow = window.open('', '', 'width=400,height=600');
-
-        // Format struk sebagai HTML
-        let receiptContent = `
-        <html>
-        <head>
-            <title>Struk Transaksi</title>
-            <style>
-                body { font-family: Arial, sans-serif; }
-                .receipt { width: 100%; max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ddd; }
-                .receipt h2 { text-align: center; }
-                .receipt .item { display: flex; justify-content: space-between; }
-                .receipt .item:last-child { border-top: 1px dashed #ddd; padding-top: 10px; margin-top: 10px; }
-                .receipt .total { font-weight: bold; }
-            </style>
-        </head>
-        <body>
-            <div class="receipt">
-                <h2>Struk Transaksi</h2>
-                <p>Invoice: ${transaksi.invoice}</p>
-                <p>Tanggal: ${transaksi.tanggal}</p>
-                <p>Kasir: ${transaksi.id_kasir}</p>
-                <p>Member: ${transaksi.id_member}</p>
-                <div class="items">
-                    ${details.map(detail => `
-                        <div class="item">
-                            <span>${detail.id_barang}</span>
-                            <span>Qty: ${detail.qty}</span>
-                            <span>Rp. ${detail.total_harga}</span>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="item">
-                    <span>Subtotal</span>
-                    <span>Rp. ${transaksi.subtotal}</span>
-                </div>
-                <div class="item">
-                    <span>Diskon</span>
-                    <span>Rp. ${transaksi.diskon}</span>
-                </div>
-                <div class="item total">
-                    <span>Total Keseluruhan</span>
-                    <span>Rp. ${transaksi.total_keseluruhan}</span>
-                </div>
-                <div class="item">
-                    <span>Nominal</span>
-                    <span>Rp. ${transaksi.nominal}</span>
-                </div>
-                <div class="item">
-                    <span>Kembalian</span>
-                    <span>Rp. ${transaksi.kembalian}</span>
-                </div>
-                <div class="item">
-                    <span>Catatan</span>
-                    <span>${transaksi.catatan}</span>
-                </div>
-            </div>
-        </body>
-        </html>
-    `;
-
-        receiptWindow.document.write(receiptContent);
-        receiptWindow.document.close();
-    }
 
 
     document.getElementById('btnBatalkan').addEventListener('click', function(event) {

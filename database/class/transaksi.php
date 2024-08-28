@@ -77,4 +77,33 @@ class Transaksi
             ':total_harga' => $total_harga
         ]);
     }
+
+    public function getAll()
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT transaksi.*,member.nama
+                                         FROM transaksi
+                                         LEFT JOIN member ON member.id_member = transaksi.id_member;");
+            $stmt->execute();
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function delete($id_transaksi)
+    {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM transaksi WHERE id_transaksi = :id_transaksi");
+            $stmt->bindParam(":id_transaksi", $id_transaksi);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    
 }
