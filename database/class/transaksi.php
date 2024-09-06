@@ -81,11 +81,23 @@ class Transaksi
     public function getAll()
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT transaksi.*,member.nama
+            $stmt = $this->pdo->prepare("SELECT transaksi.*, member.nama, transaksi_detail.id_barang, transaksi_detail.qty, transaksi_detail.harga
                                          FROM transaksi
-                                         LEFT JOIN member ON member.id_member = transaksi.id_member;");
+                                         LEFT JOIN member ON member.id_member = transaksi.id_member
+                                         LEFT JOIN transaksi_detail ON transaksi_detail.id_transaksi = transaksi.id_transaksi;");
             $stmt->execute();
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Iterasi untuk mengubah id_barang menjadi nama_barang
+            foreach ($data as &$row) {
+                // Mengubah id_barang menjadi nama_barang
+                $row['nama_barang'] = $this->getNamaBarangById($row['id_barang']);
+
+                // Menambahkan qty dan harga ke dalam hasil
+                $row['qty'] = $row['qty'];
+                $row['harga'] = $row['harga'];
+            }
+
             return $data;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -93,17 +105,17 @@ class Transaksi
         }
     }
 
-    public function delete($id_transaksi)
+    public function getNamaBarangById($id_barang)
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM transaksi WHERE id_transaksi = :id_transaksi");
-            $stmt->bindParam(":id_transaksi", $id_transaksi);
+            $stmt = $this->pdo->prepare("SELECT nama_barang FROM barang WHERE id_barang = :id_barang");
+            $stmt->bindParam(':id_barang', $id_barang, PDO::PARAM_INT);
             $stmt->execute();
-            return true;
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data ? $data['nama_barang'] : null;
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
-    
 }

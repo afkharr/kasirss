@@ -191,19 +191,29 @@ $memberUmum = $member->getUmum();
             <!-- BAGIAN KEEMPAT -->
             <div class="col-lg-3">
                 <div class="form-group row mb-3">
-
-                    <div class="d-flex flex-column col-12">
-                        <button class="btn btn-warning mb-2 col-4" id="btnBatalkan">
-                            Batalkan
+                    <div class="d-flex flex-column align-items-center col-12">
+                        <!-- Cancel Button with Icon -->
+                        <button class="btn btn-warning mb-2 col-4 d-flex align-items-center justify-content-center" id="btnBatalkan">
+                            <i class="fas fa-times"></i> <!-- Font Awesome icon -->
+                            <span class="ms-2">Batalkan</span>
                         </button>
 
-                        <button class="btn btn-outline-success col-8" id="btnProses">
-                            Proses
+                        <!-- Process Button with Icon -->
+                        <button class="btn btn-outline-success mb-2 col-6 d-flex align-items-center justify-content-center py-1" id="btnProses" style="font-size: 0.9rem;">
+                            <i class="fas fa-check"></i> <!-- Font Awesome icon -->
+                            <span class="ms-1">Proses</span>
                         </button>
+
+                        <!-- Back Button with Icon -->
+                        <a href="index.php?page=transaksi" class="btn btn-outline-success col-6 d-flex align-items-center justify-content-center py-1" id="btnKembali" style="font-size: 0.9rem;">
+                            <i class="fas fa-arrow-left"></i> <!-- Font Awesome icon -->
+                            <span class="ms-1">Kembali</span>
+                        </a>
+
                     </div>
-
                 </div>
             </div>
+
 
         </div>
         <!-- AKHIR BARISAN KETIGA -->
@@ -372,10 +382,9 @@ $memberUmum = $member->getUmum();
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    alert('Transaksi berhasil disimpan!');
-                    // Lakukan tindakan setelah sukses, seperti redirect atau reset form
-                    document.querySelector('.btn-outline-success').disabled = true; // Disable tombol setelah sukses
-                    window.location.reload();
+                    alert('Transaksi berhasil disimpan! ID Transaksi: ' + result.id_transaksi);
+                    // Setelah transaksi berhasil, buka halaman cetak di tab baru
+                    window.open('index.php?cetak=cetak&id_transaksi=' + result.id_transaksi, '_blank');
                 } else {
                     alert('Gagal menyimpan transaksi: ' + result.message);
                 }
@@ -384,7 +393,9 @@ $memberUmum = $member->getUmum();
                 console.error('Error:', error);
                 alert('Terjadi kesalahan pada server.');
             });
+
     });
+
 
 
     document.getElementById('btnBatalkan').addEventListener('click', function(event) {

@@ -85,7 +85,11 @@ try {
     $pdo->commit();
 
     // Jika berhasil
-    echo json_encode(['success' => true]);
+// Setelah commit transaksi, kirimkan id_transaksi sebagai bagian dari respons
+echo json_encode([
+    'success' => true,
+    'id_transaksi' => $idTransaksi
+]);
 } catch (Exception $e) {
     // Rollback transaksi jika ada kesalahan
     $pdo->rollBack();

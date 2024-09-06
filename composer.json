@@ -1,0 +1,19 @@
+{
+    "name": "victus/kasirss",
+    "description": "kasir",
+    "type": "project",
+    "require": {
+        "mpdf/mpdf": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Victus\\Kasirss\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "afkharr",
+            "email": "rahmatafkhar@gmail.com"
+        }
+    ]
+}

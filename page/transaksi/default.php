@@ -8,12 +8,6 @@ switch ($act) {
     case 'tambah':
         include 'index.php';
         break;
-    case 'edit':
-        include 'edit.php';
-        break;
-    case 'hapus':
-        include 'hapus.php';
-        break;
     default:
         include 'laporan.php';
         break;

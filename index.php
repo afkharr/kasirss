@@ -23,66 +23,83 @@ if (!$user->isLoggedIn()) {
             break;
     }
 } else {
+    // Check for cetak parameter and handle it
+    $cetak = isset($_GET['cetak']) ? $_GET['cetak'] : '';
 
-?>
-    <!DOCTYPE html>
-    <html lang="en">
+    if ($cetak) {
+        switch ($cetak) {
+            case 'struk':
+                include 'page/transaksi/cetak-laporan.php';
+                break;
+            case 'cetak':
+                include 'page/transaksi/struk.php';
+                break;
+            default:
+                // Redirect or handle unknown cetak values
+                header('Location: index.php'); // Change 'index.php' to your main page if needed
+                exit;
+        }
+    } else {
+        // Display the main page content
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Kasirss</title>
-        <?php include 'layouts/load_css.php'; ?>
-    </head>
+        <head>
+            <meta charset="UTF-8">
+            <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+            <title>Kasirss</title>
+            <?php include 'layouts/load_css.php'; ?>
+        </head>
 
-    <body class="hold-transition sidebar-mini">
-        <div class="wrapper">
-            <!-- Header -->
-            <?php include 'layouts/header.php'; ?>
-            <!-- Sidebar -->
+        <body class="hold-transition sidebar-mini">
+            <div class="wrapper">
+                <!-- Header -->
+                <?php include 'layouts/header.php'; ?>
+                <!-- Sidebar -->
 
-            <!-- Main Content -->
-            <div class="main-content">
-                <section class="section">
-                    <?php
-                    $page = isset($_GET["page"]) ? $_GET["page"] : 'dashboard';
-                    switch ($page) {
-                        case 'user':
-                            include('page/user/default.php');
-                            break;
-                        case 'member':
-                            include('page/member/default.php');
-                            break;
-                        case 'barang':
-                            include('page/barang/default.php');
-                            break;
-                        case 'jenis_barang':
-                            include('page/jenis_barang/default.php');
-                            break;
-                        case 'supplier':
-                            include('page/supplier/default.php');
-                            break;
-                        case 'transaksi':
-                            include('page/transaksi/default.php');
-                            break;
-                        case 'dashboard':
-                        default:
-                            include('page/dashboard/default.php');
-                            break;
-                    }
-                    ?>
-                </section>
+                <!-- Main Content -->
+                <div class="main-content">
+                    <section class="section">
+                        <?php
+                        $page = isset($_GET["page"]) ? $_GET["page"] : 'dashboard';
+                        switch ($page) {
+                            case 'user':
+                                include('page/user/default.php');
+                                break;
+                            case 'member':
+                                include('page/member/default.php');
+                                break;
+                            case 'barang':
+                                include('page/barang/default.php');
+                                break;
+                            case 'jenis_barang':
+                                include('page/jenis_barang/default.php');
+                                break;
+                            case 'supplier':
+                                include('page/supplier/default.php');
+                                break;
+                            case 'transaksi':
+                                include('page/transaksi/default.php');
+                                break;
+                            case 'dashboard':
+                            default:
+                                include('page/dashboard/default.php');
+                                break;
+                        }
+                        ?>
+                    </section>
+                </div>
+
+                <!-- Footer -->
+                <?php include 'layouts/footer.php'; ?>
             </div>
 
-            <!-- Footer -->
-            <?php include 'layouts/footer.php'; ?>
-        </div>
+            <?php include 'layouts/load_js.php'; ?>
+        </body>
 
-        <?php include 'layouts/load_js.php'; ?>
-    </body>
-
-    </html>
-<?php
+        </html>
+        <?php
+    }
 }
-
 ?>
