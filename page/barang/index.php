@@ -48,10 +48,13 @@
                                     ?>
                                 </td>
                                 <td><?php echo htmlspecialchars($row['nama_supplier']); ?></td>
-                                <td>
-                                    <a href="index.php?page=barang&act=edit&id_barang=<?php echo htmlspecialchars($row['id_barang']) ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a class="btn btn-danger btn-sm" onclick="hapus_barang(<?= $row['id_barang'] ?>)">Hapus</a>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="index.php?page=barang&act=edit&id_barang=<?php echo htmlspecialchars($row['id_barang']) ?>" class="btn btn-warning btn-sm mx-2">Edit</a>
+                                        <a class="btn btn-danger btn-sm mx-2" onclick="hapus_barang(<?= $row['id_barang'] ?>)">Hapus</a>
+                                    </div>
                                 </td>
+
                             </tr>
                         <?php
                         }

@@ -42,10 +42,13 @@ if ($_SESSION['user']['role'] == "kasir") {
                                 <td><?php echo htmlspecialchars($row['alamat_supplier']); ?></td>
                                 <td><?php echo htmlspecialchars($row['no_telp']); ?></td>
                                 <td><?php echo htmlspecialchars($row['no_rekening']); ?></td>
-                                <td>
-                                    <a href="index.php?page=supplier&act=edit&id_supplier=<?php echo htmlspecialchars($row['id_supplier']); ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a class="btn btn-danger btn-sm" onclick="hapus_supplier(<?= $row['id_supplier'] ?>)">Hapus</a>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <a href="index.php?page=supplier&act=edit&id_supplier=<?php echo htmlspecialchars($row['id_supplier']); ?>" class="btn btn-warning btn-sm mx-2">Edit</a>
+                                        <a class="btn btn-danger btn-sm mx-2" onclick="hapus_supplier(<?= $row['id_supplier'] ?>)">Hapus</a>
+                                    </div>
                                 </td>
+
                             </tr>
                         <?php
                         }

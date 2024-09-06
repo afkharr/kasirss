@@ -1,3 +1,10 @@
+<?php
+if ($_SESSION['user']['role'] == "super_admin" || $_SESSION['user']['role'] == "admin") {
+    echo "<script>
+    window.location = 'index.php?alert=err2';
+    </script>";
+}
+?>
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0 text-gray-800">Transaksi</h1>
