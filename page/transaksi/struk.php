@@ -7,11 +7,6 @@ require_once "database/class/cetak.php"; // The Cetak class for database access
 $id_transaksi = isset($_GET['id_transaksi']) ? $_GET['id_transaksi'] : null;
 // $tanggal = isset($_GET['tanggal']) ? $_GET['tanggal'] : null;
 
-// Ensure both 'id_transaksi' and 'tanggal' are provided
-// if (!$id_transaksi || !$tanggal) {
-    // die("Transaction ID or Date is missing.");
-// }
-
 // Initialize the database connection and the Cetak class
 $pdo = koneksi::connect(); // Assuming koneksi::connect() returns a PDO instance
 $transaksi = Cetak::getInstance($pdo);
@@ -86,7 +81,7 @@ $html = '
     <div class="container">
         <div class="header">
             <h2>Struk Transaksi</h2>
-            <p>Tanggal: ' . htmlspecialchars($tanggal) . '</p>
+            <p class="report-date">' . date("Y-m-d") . '</p>
             <p>Invoice: ' . htmlspecialchars($invoice) . '</p>
             <p>ID Transaksi: ' . htmlspecialchars($dataTransaksi[0]["id_transaksi"]) . '</p>
         </div>
